@@ -15,7 +15,7 @@ class App extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      currentUser: '',
+      currentUser: 'Jawad',
       users : ['jawad', 'Skywalker'],
       userPosts : []
     }
@@ -26,9 +26,12 @@ class App extends Component {
   }
 
   updateCurrentUser = (event) => {
-            {/* inside of header, on change , when the name is selected, grab it with event.name and change state to it */}
-
-    console.log(event.target.value)
+    {/* inside of header, on change , when the name is selected, grab it with event.name and change state to it */}
+    console.log('value of this.state.currentUser before this.setState' + this.state.currentUser);
+    let selectedUser = event.target.value;
+    console.log('the select tag has updated, called props.onChange which called updateCurrentUser')
+    this.setState({ currentUser : selectedUser});
+    console.log('value of this.state.currentUser after this.setState ' + this.state.currentUser);
   }
 
   render() {
@@ -38,7 +41,7 @@ class App extends Component {
 
     return (
       <div className='main-container'>
-        <Header currentUser={this.state.currentUser} users={this.state.users} onClick={this.updateCurrentUser}/>
+        <Header currentUser={this.state.currentUser} users={this.state.users} onChange={this.updateCurrentUser}/>
         <Status currentUser={this.state.currentUser} users={this.state.users} onClick={this.createPost}/>
         <Timeline />
       </div>
@@ -49,15 +52,12 @@ class App extends Component {
 
 let Header = (props) => {
   let allUsers = props.users;
-  let currentUser = props.currentUser;
 
   return (
     <div className='header'>
       <h2>Social News Feed</h2>
-      <select className='user-select-list'>
-        {
-        allUsers.map(user => { return <option value={user}>{user}</option>})
-        }
+      <select className='user-select-list' onChange={props.onChange}>
+        {allUsers.map(user => { return <option value={user}>{user}</option> })}
       </select>
     </div>
   )

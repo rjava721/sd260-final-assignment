@@ -1,38 +1,68 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
+  display: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+img {
+  border-radius: 100;
+  width: 100px;
+  height: 100px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.main-container {
+  width: 800px;
+  margin:auto;
+  
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-around;
+  height: 100px;
+  background: #3e5c9a;
 }
 
-.App-link {
-  color: #61dafb;
+.header h2 {
+  margin-top: 5%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header select {
+  margin-top: 5%;
+  height: 20px;
+}
+
+.status-box {
+  color: whitesmoke;
+  height: 150px;
+  background: darkslategray;
+}
+
+/* make the form position absolute */
+.input-form {
+  display: flex;
+}
+
+.status-post-box {
+  width: 800px;
+  height: 40px;
+}
+
+.post-container {
+  border: 1px solid black;
+  flex-flow: row wrap;
+}
+
+.top {
+  border: 1px solid black;
+  flex-flow: row wrap;
+}
+
+.post-container img { 
+  border: 1px solid black;
+  display: inline-block;
+}
+
+.post-interaction-box {
+  border: 1px solid black;
 }

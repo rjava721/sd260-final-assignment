@@ -1,8 +1,21 @@
 * {
   box-sizing: border-box;
   display: relative;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
+  font-family: 'Open Sans', sans-serif;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+input {
+  border: 3px solid darkseagreen;;
+  background: darkseagreen;;
+  color: white;
+}
+
+button {
+  border: 3px solid darkseagreen;;
+  background: darkseagreen;;
+  color: white;
 }
 
 img {
@@ -17,6 +30,7 @@ img {
   
 }
 .header {
+  color: white;
   display: flex;
   justify-content: space-around;
   height: 100px;
@@ -28,14 +42,15 @@ img {
 }
 
 .header select {
-  margin-top: 5%;
-  height: 20px;
+  font-size: 20px;
+  margin-top: 3%;
+  height: 50px;
 }
 
 .status-box {
   color: whitesmoke;
-  height: 150px;
-  background: darkslategray;
+  height: 230px;
+  background: seagreen;
 }
 
 /* make the form position absolute */
@@ -43,20 +58,48 @@ img {
   display: flex;
 }
 
+.submit-button {
+  width: 100px;
+  height: 50px;
+  margin: 20px;
+}
+
 .status-post-box {
+  font-size: 20px;
+  padding: 30px;
   width: 800px;
-  height: 40px;
+  height: 100px;
+  margin-left: 5px;
 }
 
 .post-container {
-  border: 1px solid black;
-  flex-flow: row wrap;
+  margin: 15px;
+  border: 3px solid teal;
+}
+
+.post-top-container {
+  display: flex;
+}
+
+.post-user-info {
+  width: 150px;
+  border: 1px solid lightseagreen;
+}
+
+.post-user-info * {
+  margin: 20px;
+}
+
+.post-top-msg {
+  font-size: 20px;
+  padding: 10px;
+  width: 600px;
 }
 
 .top {
+  display: inline-block;
   width: 200px;
   border: 1px solid black;
-  flex-flow: row wrap;
 }
 
 .post-container img { 
@@ -67,3 +110,4 @@ img {
 .post-interaction-box {
   border: 1px solid black;
 }
+

@@ -12,21 +12,24 @@ class Post extends Component {
     return (
       <div>
         <div className='post-container'>
-        <img src="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwirj-7h4KbnAhXHpZ4KHYeuBcgQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.onlinewebfonts.com%2Ficon%2F513928&psig=AOvVaw3PLCpl4ZwhF2_orwYfeUz7&ust=1580316737287677" alt="prfl"/>
-          <div className='top'>
-            <h4>{this.props.currentUser} NEW POST</h4>
-            <h4>Time</h4>
-          </div>
+          <div className='post-top-container'>
+            <img src='https://lh6.googleusercontent.com/proxy/U4Xg7pjLdOi-k39llZrQl4Rry7JDFN3Z1lwuUkXAh_SNbJXwnutlgqGb2jr9nSMttrJKYz-02nG-fQmXW8KB1rwbiA' alt="prfl"/>
 
-          <div className='post-content'>
-            <p>{this.props.formContent}</p>
-            <p>1 Like 1 comment</p>
+            <div className='post-user-info'>
+              <h4>{this.props.currentUser}</h4>
+              <h4>Time</h4>
+            </div>
+
+            <div className='post-top-msg'>
+              <p>{this.props.formContent}</p>
+            </div>
           </div>
+              
           <div className='post-interaction-box'>
+            <p>1 Like 1 comment</p>
             <button type='button'>Like</button>
             <button type='button'>Comment</button>
           </div>
-          <Comment />
         </div>
       </div>
     )

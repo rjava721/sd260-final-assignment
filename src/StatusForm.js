@@ -17,7 +17,7 @@ class StatusForm extends Component {
     return (
       <div className='status-box'>
         <h4>Create a post</h4>
-        <span><h4>{this.props.currentUser}</h4></span>
+        <span><h4>{this.props.currentUser.name}</h4></span>
 
         <form className='input-form' onSubmit={this.props.handleFormSubmit}> 
             <textarea value={this.props.formValue}  onChange={this.props.updateState} placeholder='Write a post...' className='status-post-box'/>

@@ -10,14 +10,14 @@ class Post extends Component {
 
   render() {
     return (
-      <div className={this.props.currentUser}>
+      <div>
         <div className='post-container'>
           <div className='post-top-container'>
             {/* add props for image url */}
             <img src={this.props.userImage} alt="prfl"/>
 
             <div className='post-user-info'>
-              <h4>{this.props.currentUser.name}</h4>
+              <h4>{this.props.currentUser.belongsTo}</h4>
               <h4>Time</h4>
             </div>
 

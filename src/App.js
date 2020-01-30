@@ -32,8 +32,8 @@ class App extends Component {
           avatarUrl: 'https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png'
         }
       ],
-      user1Posts: [],
-      user2Posts: [],
+      everyUserPosts: [],
+
       formValue: '',
     }
   }
@@ -65,9 +65,8 @@ class App extends Component {
     // if the currentuser is 1 then push everything related to it in its own array
     // else currentuser is 2 then push all posts to user2statearray
     // then empty the box
-
-    let user1Posts = this.state.user1Posts;
-    let user2Posts = this.state.user2Posts;
+    let everyUserPosts = this.state.everyUserPosts;
+   
     let formValue = this.state.formValue;
     let currentUser = this.state.currentUser;
 
@@ -77,11 +76,13 @@ class App extends Component {
 
     // take the state array and store the formtextcontnet inside of it.
     {if (currentUser.name === 'jawad') {
-      user1Posts.push(formValue);
-      console.log('were dealing with user1 : ' + user1Posts)
+      everyUserPosts.push({"formValue" : formValue, "id" : 1, "belongsTo": 'jawad', "likesAmount" : 0, "commentsAmount" : 0, "userImage": 'https://lh6.googleusercontent.com/proxy/U4Xg7pjLdOi-k39llZrQl4Rry7JDFN3Z1lwuUkXAh_SNbJXwnutlgqGb2jr9nSMttrJKYz-02nG-fQmXW8KB1rwbiA' });
+      console.log(everyUserPosts);
     } else {
-      user2Posts.push(formValue);
-      console.log('were dealing with user2 : ' + user2Posts);
+      everyUserPosts.push({ "formValue" : formValue, "id" : 2, "belongsTo": 'Skywalker', "likesAmount" : 0, "commentsAmount" : 0, "userImage" : 'https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png' });
+
+      console.log('everyUserPosts');
+      console.log(everyUserPosts);
     }}
 
     // empty the form input box
@@ -94,17 +95,23 @@ class App extends Component {
 
   //call it renderPost
   createPost = () => {
-    let user1Posts = this.state.user1Posts;
-    let user2Posts = this.state.user2Posts;
+    let everyUserPosts = this.state.everyUserPosts;
     let currentUser = this.state.currentUser;
 
-    if(currentUser.name === 'jawad') {
-      return (this.state.user1Posts.map((post) => { return <Post currentUser={this.state.currentUser} formContent={post} userImage={this.state.currentUser.avatarUrl} /> }))
-    } else {
-      return (this.state.user2Posts.map((post) => { return <Post currentUser={this.state.currentUser} formContent={post} userImage={this.state.currentUser.avatarUrl} /> }))
-    }
+    // if(currentUser.name === 'everyone') {
+    //   return everyUserPosts.map(postObject => { return <Post currentUser={postObject.belongsTo} formContent={postObject.formValue} /> })
+    // }
 
-  }
+    if(currentUser.name === 'jawad') {
+      return (everyUserPosts.map(postObject => {
+        if(postObject.id === 1) { return <Post currentUser={postObject} formContent={postObject.formValue} userImage={postObject.userImage} /> }
+      }))
+    } else {
+      return (everyUserPosts.map(postObject => {
+        if(postObject.id === 2) {return <Post currentUser={postObject} formContent={postObject.formValue} userImage={postObject.userImage} />}  
+      }))
+    }
+  }     
 
   updateState = (event) => {
     this.setState({ formValue : event.target.value});
@@ -120,13 +127,12 @@ class App extends Component {
         {this.createPost()}
       </div>  
     )
-  }
+  }//render
 
-}
+}//class
 
 let Header = (props) => {
   let alluserData = props.userData;
-
   return (
     <div className='header'>
       <h2>Social News Feed</h2>

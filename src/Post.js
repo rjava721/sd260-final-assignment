@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Timeline from './Timeline';
 import App from './App';
 import Comment from './Comment';
+import moment from 'moment';// Dhruv suggested me to use this api
 
 class Post extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Post extends Component {
 
             <div className='post-user-info'>
               <h4>{this.props.currentUser.belongsTo}</h4>
-              <h4>Time</h4>
+              <h4>{moment().calendar()}</h4>
             </div>
 
             <div className='post-top-msg'>
@@ -34,8 +34,16 @@ class Post extends Component {
                 //iterate through state array,
                 //if index===button id
                 //incrementcounter */}
-            <button type='button' onClick={this.props.incrementLikes} id={this.props.trackingNumber}>Like</button>
-            <button type='button' onClick={this.props.createComment}>Comment</button>
+            <button 
+            type='button' 
+            onClick={this.props.incrementLikes} 
+            id={this.props.trackingNumber}>Like
+            </button>
+
+            <button 
+            type='button' 
+            onClick={this.props.createComment}>Comment
+            </button>
           </div>
         </div>
       </div>

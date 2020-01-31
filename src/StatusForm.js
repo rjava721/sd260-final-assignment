@@ -29,7 +29,8 @@ class StatusForm extends Component {
           <input 
           type='submit' 
           value='Post' 
-          className='submit-button'></input>
+          className='submit-button'>
+          </input>
         </form>
       </div>
     )

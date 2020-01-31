@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
-//import Header from './Header';
 import StatusForm from './StatusForm';
-//import Timeline from './Timeline';
 import Post from './Post';
-
 import Comment from './Comment';
 import './App.css';
-
-// update your data
-// you are rendering your stuff through setState which updates your data
 
 class App extends Component {
   constructor (props) {
@@ -22,9 +16,9 @@ class App extends Component {
 
       userData: [
         {
-          userName: 'everyone',
-          id: 5,
-          avatarUrl: ''
+          userName: 'everyone',// placeholder for selecting every post
+          id: 5,//not necessary
+          avatarUrl: ''// not necessary
         },
         {
           userName: 'jawad',
@@ -37,17 +31,13 @@ class App extends Component {
           avatarUrl: 'https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png'
         }
       ],
-
       everyUserPosts: [],
-
       formValue: '',
-
-      createdOrder: 0
+      postId: 0
     }
   }
 
-  // Header================================
-
+   // Header================================
   updateCurrentUser = (event) => {
     {/* inside of header, on change , when the name is selected, grab it with event.name and change state to it */}
     let userData = this.state.userData;
@@ -68,13 +58,16 @@ class App extends Component {
   }
 
   // StatusForm=================================
-
+  updateStoredText = (event) => {
+    let currentInputBoxText = event.target.value;
+    this.setState({ formValue : currentInputBoxText});
+  }
+  
   handleFormSubmit = (event) => {
-    // if the currentuser is 1 then push everything related to it in its own array
-    // else currentuser is 2 then push all posts to user2statearray
-    // then empty the box
+    // grabs the text from box, creates an object with extra details, pushes it inside allUserPosts state array
+    // then empties the input box
+
     let everyUserPosts = this.state.everyUserPosts;
-   
     let formValue = this.state.formValue;
     let currentUser = this.state.currentUser;
 
@@ -89,9 +82,10 @@ class App extends Component {
         "id" : 1,
         "belongsTo": 'jawad',
         "likesAmount" : 0,
-        "createdOrder" : this.state.createdOrder, 
+        "postId" : this.state.postId, 
         "commentsAmount" : 0,
-        "userImage": 'https://lh6.googleusercontent.com/proxy/U4Xg7pjLdOi-k39llZrQl4Rry7JDFN3Z1lwuUkXAh_SNbJXwnutlgqGb2jr9nSMttrJKYz-02nG-fQmXW8KB1rwbiA' });
+        "userImage": 'https://lh6.googleusercontent.com/proxy/U4Xg7pjLdOi-k39llZrQl4Rry7JDFN3Z1lwuUkXAh_SNbJXwnutlgqGb2jr9nSMttrJKYz-02nG-fQmXW8KB1rwbiA' 
+      });
       
       console.log(everyUserPosts);
     } else {
@@ -100,33 +94,33 @@ class App extends Component {
         "id" : 2, 
         "belongsTo": 'Skywalker', 
         "likesAmount" : 0,
-        "createdOrder" : this.state.createdOrder, 
+        "postId" : this.state.postId, 
         "commentsAmount" : 0, 
-        "userImage" : 'https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png' });
+        "userImage" : 'https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png' 
+      });
 
       console.log('everyUserPosts');
       console.log(everyUserPosts);
     }}
 
     // empty the form input box
-    this.setState({ formValue : '' });
+    this.setState({ formValue: '' });
     
-    // when clicking on the button, find the post order in the state array with the button's id and increment the likeAmount
-    this.setState({ createdOrder: this.state.createdOrder++});
+    console.log('before incrementing postId ' + this.state.postId);
+    this.setState({ postId: this.state.postId++});
+    console.log('just incremented postID ' + this.state.postId)
 
   }// handleFormSubmit()
 
-  //call it renderPost
+  //Renders the post
   createPost = () => {
     let everyUserPosts = this.state.everyUserPosts;
     let currentUser = this.state.currentUser;
     
-
     if(currentUser.name === 'everyone') {
-      
       return everyUserPosts.map(postObject => { 
         console.log('inside of createpost test everyone ' + postObject.belongsTo);
-        // call a function that updates the createdorder state
+        // call a function that updates the postId state
         return <Post 
           currentUser={postObject} 
           formContent={postObject.formValue} 
@@ -134,9 +128,8 @@ class App extends Component {
           likesAmount={postObject.likesAmount}
           commentsAmount={postObject.commentsAmount}
           incrementLikes={this.incrementLikes} 
-          trackingNumber={this.state.createdOrder} 
+          trackingNumber={this.state.postId} 
           createComment={this.createComment} />
-          
         })
     }
 
@@ -150,9 +143,8 @@ class App extends Component {
           likesAmount={postObject.likesAmount}
           commentsAmount={postObject.commentsAmount}
           incrementLikes={this.incrementLikes}
-          trackingNumber={this.state.createdOrder}
+          trackingNumber={this.state.postId}
           createComment={this.createComment} />
-
         }
       }))
     } else {
@@ -165,7 +157,7 @@ class App extends Component {
           likesAmount={postObject.likesAmount}
           commentsAmount={postObject.commentsAmount}
           incrementLikes={this.incrementLikes}
-          trackingNumber={this.state.createdOrder}
+          trackingNumber={this.state.postId}
           createComment={this.createComment} />
         }  
       }))
@@ -174,11 +166,13 @@ class App extends Component {
 
   //Posts================================================
   createComment = () => {
+    console.log('this function is for creating a comment')
     return <Comment />;
   }
+
   incrementLikes = (event) => {
 
-    // you duplicate the state array, 
+    // duplicate the state array, 
     // update the duplicated array
     // set state the state array to the duplicate array
     console.log('this function is supposed to increment likes');
@@ -187,20 +181,15 @@ class App extends Component {
     let tempArray = this.state.everyUserPosts;
 
     tempArray.forEach( (post, index) => {
-      if (index === parseInt(event.target.id)) {
-        tempArray[index].likesAmount++;
+      if (post.postId === parseInt(event.target.id)) {
+        post.likesAmount++;
       } else {
-        console.log('they do not match ' + index + event.target.id);
+        console.log('they do not match ' + post.id + event.target.id);
       }
     })
 
     this.setState({everyUserPosts: tempArray});
     console.log(this.state.everyUserPosts)
-  }
-
-  updateStoredText = (event) => {
-    let currentInputBoxText = event.target.value;
-    this.setState({ formValue : currentInputBoxText});
   }
 
   render() {
@@ -209,7 +198,7 @@ class App extends Component {
         <Header 
         currentUser={this.state.currentUser} 
         userData={this.state.userData} 
-        onChange={this.updateCurrentUser}/>
+        updateCurrentUser={this.updateCurrentUser}/>
 
         <StatusForm 
         currentUser={this.state.currentUser} 
@@ -218,12 +207,61 @@ class App extends Component {
         formValue={this.state.formValue} />
 
         {/* 5 static posts */}
-        {this.createPost()}
-        {this.createComment()}
-      </div>  
-    )
-  }//render
+        {/* <Post 
+          currentUser="jawad" 
+          formContent="static post 1" 
+          userImage="https://lh6.googleusercontent.com/proxy/U4Xg7pjLdOi-k39llZrQl4Rry7JDFN3Z1lwuUkXAh_SNbJXwnutlgqGb2jr9nSMttrJKYz-02nG-fQmXW8KB1rwbiA"
+          likesAmount='5'
+          commentsAmount= '0'
+          incrementLikes={this.incrementLikes} 
+          trackingNumber={this.state.postId} 
+          createComment={this.createComment} />
+          <Comment />
+        <Post 
+          currentUser="jawad" 
+          formContent="static post 2" 
+          userImage="https://lh6.googleusercontent.com/proxy/U4Xg7pjLdOi-k39llZrQl4Rry7JDFN3Z1lwuUkXAh_SNbJXwnutlgqGb2jr9nSMttrJKYz-02nG-fQmXW8KB1rwbiA"
+          likesAmount='5'
+          commentsAmount= '4'
+          incrementLikes={this.incrementLikes} 
+          trackingNumber={this.state.postId} 
+          createComment={this.createComment} />
+          <Comment />
+        <Post 
+          currentUser="Skywalker" 
+          formContent="static post 3" 
+          userImage="https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png"
+          likesAmount='5'
+          commentsAmount= '3'
+          incrementLikes={this.incrementLikes} 
+          trackingNumber={this.state.postId} 
+          createComment={this.createComment} />
+          <Comment />
+        <Post 
+          currentUser="Skywalker" 
+          formContent="static post 4" 
+          userImage="https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png"
+          likesAmount='6'
+          commentsAmount= '2'
+          incrementLikes={this.incrementLikes} 
+          trackingNumber={this.state.postId} 
+          createComment={this.createComment} />
+          <Comment />
+        <Post 
+          currentUser="jawad" 
+          formContent="static post 5" 
+          userImage="https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png"
+          likesAmount='9'
+          commentsAmount= '3'
+          incrementLikes={this.incrementLikes} 
+          trackingNumber={this.state.postId} 
+          createComment={this.createComment} />
+          <Comment /> */}
 
+        {this.createPost()}
+      </div>  
+    )//return
+  }//render
 }//class
 
 let Header = (props) => {
@@ -233,13 +271,13 @@ let Header = (props) => {
       <h2>Social News Feed</h2>
       <select 
       className='user-select-list' 
-      onChange={props.onChange}
+      onChange={props.updateCurrentUser}
       >
-      {
-      alluserData.map(user => { 
-        return <option value={user.userName}>{user.userName}</option> 
-      })
-      }
+      {alluserData
+      .map(user => { 
+        return <option 
+        value={user.userName}>{user.userName}</option> 
+      })}
       </select>
     </div>
   )

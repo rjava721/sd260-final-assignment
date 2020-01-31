@@ -20,8 +20,16 @@ class StatusForm extends Component {
         <span><h4>{this.props.currentUser.name}</h4></span>
 
         <form className='input-form' onSubmit={this.props.handleFormSubmit}> 
-            <textarea value={this.props.formValue}  onChange={this.props.updateState} placeholder='Write a post...' className='status-post-box'/>
-            <input type='submit' value='Post' className='submit-button'></input>
+          <textarea 
+          value={this.props.formValue}  
+          onChange={this.props.updateState} 
+          placeholder='Write a post...' 
+          className='status-post-box'/>
+          
+          <input 
+          type='submit' 
+          value='Post' 
+          className='submit-button'></input>
         </form>
       </div>
     )

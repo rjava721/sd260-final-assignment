@@ -7,7 +7,7 @@ class Comment extends Component {
 
   render() {
     return (
-      <div className='comment=container'> 
+      <div className='comment-container'> 
         <p>Comment content</p>
         <p><a>Like</a><a>Reply</a></p>
       </div>

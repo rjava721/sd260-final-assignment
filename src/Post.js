@@ -13,7 +13,6 @@ class Post extends Component {
       <div>
         <div className='post-container'>
           <div className='post-top-container'>
-            {/* add props for image url */}
             <img src={this.props.userImage} alt="prfl"/>
 
             <div className='post-user-info'>
@@ -27,8 +26,12 @@ class Post extends Component {
           </div>
               
           <div className='post-interaction-box'>
-            <p>1 Like 1 comment</p>
-            <button type='button'>Like</button>
+            <p>{this.props.likesAmount} Likes {this.props.commentsAmount} Comments</p>
+            {/* // when clicking on button
+                // increment the amount of likes
+                // we can have each post have an id
+                // and each like button inside these posts have the same id */}
+            <button type='button' onClick={this.props.incrementLikes}>Like</button>
             <button type='button'>Comment</button>
           </div>
         </div>

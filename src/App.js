@@ -19,8 +19,13 @@ class App extends Component {
         id: 5,
         avatarUrl: ''
       },
-      // userData: ['jawad', 'Skywalker'],
+
       userData: [
+        {
+          userName: 'everyone',
+          id: 5,
+          avatarUrl: ''
+        },
         {
           userName: 'jawad',
           id: 0,
@@ -32,6 +37,7 @@ class App extends Component {
           avatarUrl: 'https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png'
         }
       ],
+
       everyUserPosts: [],
 
       formValue: '',
@@ -76,10 +82,23 @@ class App extends Component {
 
     // take the state array and store the formtextcontnet inside of it.
     {if (currentUser.name === 'jawad') {
-      everyUserPosts.push({"formValue" : formValue, "id" : 1, "belongsTo": 'jawad', "likesAmount" : 0, "commentsAmount" : 0, "userImage": 'https://lh6.googleusercontent.com/proxy/U4Xg7pjLdOi-k39llZrQl4Rry7JDFN3Z1lwuUkXAh_SNbJXwnutlgqGb2jr9nSMttrJKYz-02nG-fQmXW8KB1rwbiA' });
+      everyUserPosts.push({
+        "formValue" : formValue,
+        "id" : 1,
+        "belongsTo": 'jawad',
+        "likesAmount" : 0,
+        "commentsAmount" : 0,
+        "userImage": 'https://lh6.googleusercontent.com/proxy/U4Xg7pjLdOi-k39llZrQl4Rry7JDFN3Z1lwuUkXAh_SNbJXwnutlgqGb2jr9nSMttrJKYz-02nG-fQmXW8KB1rwbiA' });
+      
       console.log(everyUserPosts);
     } else {
-      everyUserPosts.push({ "formValue" : formValue, "id" : 2, "belongsTo": 'Skywalker', "likesAmount" : 0, "commentsAmount" : 0, "userImage" : 'https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png' });
+      everyUserPosts.push({ 
+        "formValue" : formValue, 
+        "id" : 2, 
+        "belongsTo": 'Skywalker', 
+        "likesAmount" : 0, 
+        "commentsAmount" : 0, 
+        "userImage" : 'https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png' });
 
       console.log('everyUserPosts');
       console.log(everyUserPosts);
@@ -89,29 +108,61 @@ class App extends Component {
     this.setState({ formValue : '' });
 
     // then map through the array and then create a post inside the render function
-    // the function gets called inside of the render
+    // this function gets called inside of the render
     
-  }
+  }// handleFormSubmit()
 
   //call it renderPost
   createPost = () => {
     let everyUserPosts = this.state.everyUserPosts;
     let currentUser = this.state.currentUser;
 
-    // if(currentUser.name === 'everyone') {
-    //   return everyUserPosts.map(postObject => { return <Post currentUser={postObject.belongsTo} formContent={postObject.formValue} /> })
-    // }
+    if(currentUser.name === 'everyone') {
+      return everyUserPosts.map(postObject => { 
+        console.log('inside of createpost test everyone ' + postObject.belongsTo);
+        return <Post 
+          currentUser={postObject} 
+          formContent={postObject.formValue} 
+          userImage={postObject.userImage}
+          likesAmount={postObject.likesAmount}
+          commentsAmount={postObject.commentsAmount}
+          incrementLikes={this.incrementLikes} />
+          
+        })
+    }
 
     if(currentUser.name === 'jawad') {
       return (everyUserPosts.map(postObject => {
-        if(postObject.id === 1) { return <Post currentUser={postObject} formContent={postObject.formValue} userImage={postObject.userImage} /> }
+        if(postObject.id === 1) { 
+          return <Post 
+          currentUser={postObject} 
+          formContent={postObject.formValue} 
+          userImage={postObject.userImage}
+          likesAmount={postObject.likesAmount}
+          commentsAmount={postObject.commentsAmount}
+          incrementLikes={this.incrementLikes} />
+
+        }
       }))
     } else {
       return (everyUserPosts.map(postObject => {
-        if(postObject.id === 2) {return <Post currentUser={postObject} formContent={postObject.formValue} userImage={postObject.userImage} />}  
+        if(postObject.id === 2) {
+          return <Post 
+          currentUser={postObject} 
+          formContent={postObject.formValue} 
+          userImage={postObject.userImage}
+          likesAmount={postObject.likesAmount}
+          commentsAmount={postObject.commentsAmount}
+          incrementLikes={this.incrementLikes} />
+        }  
       }))
     }
-  }     
+  }
+  
+  incrementLikes = (e) => {
+    console.log('this function is supposed to increment likes');
+    console.log(e);
+  }
 
   updateState = (event) => {
     this.setState({ formValue : event.target.value});
@@ -120,9 +171,16 @@ class App extends Component {
   render() {
     return (
       <div className='main-container'>
-        <Header currentUser={this.state.currentUser} userData={this.state.userData} onChange={this.updateCurrentUser}/>
+        <Header 
+        currentUser={this.state.currentUser} 
+        userData={this.state.userData} 
+        onChange={this.updateCurrentUser}/>
 
-        <StatusForm currentUser={this.state.currentUser} handleFormSubmit={this.handleFormSubmit} updateState={this.updateState} formValue={this.state.formValue} />
+        <StatusForm 
+        currentUser={this.state.currentUser} 
+        handleFormSubmit={this.handleFormSubmit} 
+        updateState={this.updateState} 
+        formValue={this.state.formValue} />
 
         {this.createPost()}
       </div>  
@@ -136,8 +194,15 @@ let Header = (props) => {
   return (
     <div className='header'>
       <h2>Social News Feed</h2>
-      <select className='user-select-list' onChange={props.onChange}>
-        {alluserData.map(user => { return <option value={user.userName}>{user.userName}</option> })}
+      <select 
+      className='user-select-list' 
+      onChange={props.onChange}
+      >
+      {
+      alluserData.map(user => { 
+        return <option value={user.userName}>{user.userName}</option> 
+      })
+      }
       </select>
     </div>
   )

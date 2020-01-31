@@ -30,9 +30,12 @@ class Post extends Component {
             {/* // when clicking on button
                 // increment the amount of likes
                 // we can have each post have an id
-                // and each like button inside these posts have the same id */}
-            <button type='button' onClick={this.props.incrementLikes}>Like</button>
-            <button type='button'>Comment</button>
+                // and each like button inside these posts have the same id
+                //iterate through state array,
+                //if index===button id
+                //incrementcounter */}
+            <button type='button' onClick={this.props.incrementLikes} id={this.props.trackingNumber}>Like</button>
+            <button type='button' onClick={this.props.createComment}>Comment</button>
           </div>
         </div>
       </div>

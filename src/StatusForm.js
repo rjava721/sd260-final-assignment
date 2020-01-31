@@ -22,7 +22,7 @@ class StatusForm extends Component {
         <form className='input-form' onSubmit={this.props.handleFormSubmit}> 
           <textarea 
           value={this.props.formValue}  
-          onChange={this.props.updateState} 
+          onChange={this.props.updateStoredText} 
           placeholder='Write a post...' 
           className='status-post-box'/>
           

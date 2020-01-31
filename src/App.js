@@ -4,7 +4,7 @@ import StatusForm from './StatusForm';
 //import Timeline from './Timeline';
 import Post from './Post';
 
-// import Comment from './Comment';
+import Comment from './Comment';
 import './App.css';
 
 // update your data
@@ -41,6 +41,8 @@ class App extends Component {
       everyUserPosts: [],
 
       formValue: '',
+
+      createdOrder: 0
     }
   }
 
@@ -87,6 +89,7 @@ class App extends Component {
         "id" : 1,
         "belongsTo": 'jawad',
         "likesAmount" : 0,
+        "createdOrder" : this.state.createdOrder, 
         "commentsAmount" : 0,
         "userImage": 'https://lh6.googleusercontent.com/proxy/U4Xg7pjLdOi-k39llZrQl4Rry7JDFN3Z1lwuUkXAh_SNbJXwnutlgqGb2jr9nSMttrJKYz-02nG-fQmXW8KB1rwbiA' });
       
@@ -96,7 +99,8 @@ class App extends Component {
         "formValue" : formValue, 
         "id" : 2, 
         "belongsTo": 'Skywalker', 
-        "likesAmount" : 0, 
+        "likesAmount" : 0,
+        "createdOrder" : this.state.createdOrder, 
         "commentsAmount" : 0, 
         "userImage" : 'https://pdpcom.scdn1.secure.raxcdn.com/media/catalog/product/cache/1/image/85e4522595efc69f496374d01ef2bf13/f/r/front_20-_20on_1_1.png' });
 
@@ -106,41 +110,48 @@ class App extends Component {
 
     // empty the form input box
     this.setState({ formValue : '' });
-
-    // then map through the array and then create a post inside the render function
-    // this function gets called inside of the render
     
+    // when clicking on the button, find the post order in the state array with the button's id and increment the likeAmount
+    this.setState({ createdOrder: this.state.createdOrder++});
+
   }// handleFormSubmit()
 
   //call it renderPost
   createPost = () => {
     let everyUserPosts = this.state.everyUserPosts;
     let currentUser = this.state.currentUser;
+    
 
     if(currentUser.name === 'everyone') {
+      
       return everyUserPosts.map(postObject => { 
         console.log('inside of createpost test everyone ' + postObject.belongsTo);
+        // call a function that updates the createdorder state
         return <Post 
           currentUser={postObject} 
           formContent={postObject.formValue} 
           userImage={postObject.userImage}
           likesAmount={postObject.likesAmount}
           commentsAmount={postObject.commentsAmount}
-          incrementLikes={this.incrementLikes} />
+          incrementLikes={this.incrementLikes} 
+          trackingNumber={this.state.createdOrder} 
+          createComment={this.createComment} />
           
         })
     }
 
     if(currentUser.name === 'jawad') {
       return (everyUserPosts.map(postObject => {
-        if(postObject.id === 1) { 
+        if(postObject.id === 1) {
           return <Post 
           currentUser={postObject} 
           formContent={postObject.formValue} 
           userImage={postObject.userImage}
           likesAmount={postObject.likesAmount}
           commentsAmount={postObject.commentsAmount}
-          incrementLikes={this.incrementLikes} />
+          incrementLikes={this.incrementLikes}
+          trackingNumber={this.state.createdOrder}
+          createComment={this.createComment} />
 
         }
       }))
@@ -153,19 +164,43 @@ class App extends Component {
           userImage={postObject.userImage}
           likesAmount={postObject.likesAmount}
           commentsAmount={postObject.commentsAmount}
-          incrementLikes={this.incrementLikes} />
+          incrementLikes={this.incrementLikes}
+          trackingNumber={this.state.createdOrder}
+          createComment={this.createComment} />
         }  
       }))
     }
   }
-  
-  incrementLikes = (e) => {
+
+  //Posts================================================
+  createComment = () => {
+    return <Comment />;
+  }
+  incrementLikes = (event) => {
+
+    // you duplicate the state array, 
+    // update the duplicated array
+    // set state the state array to the duplicate array
     console.log('this function is supposed to increment likes');
-    console.log(e);
+    console.log(event.target.id);
+    
+    let tempArray = this.state.everyUserPosts;
+
+    tempArray.forEach( (post, index) => {
+      if (index === parseInt(event.target.id)) {
+        tempArray[index].likesAmount++;
+      } else {
+        console.log('they do not match ' + index + event.target.id);
+      }
+    })
+
+    this.setState({everyUserPosts: tempArray});
+    console.log(this.state.everyUserPosts)
   }
 
-  updateState = (event) => {
-    this.setState({ formValue : event.target.value});
+  updateStoredText = (event) => {
+    let currentInputBoxText = event.target.value;
+    this.setState({ formValue : currentInputBoxText});
   }
 
   render() {
@@ -179,10 +214,12 @@ class App extends Component {
         <StatusForm 
         currentUser={this.state.currentUser} 
         handleFormSubmit={this.handleFormSubmit} 
-        updateState={this.updateState} 
+        updateStoredText={this.updateStoredText} 
         formValue={this.state.formValue} />
 
+        {/* 5 static posts */}
         {this.createPost()}
+        {this.createComment()}
       </div>  
     )
   }//render
